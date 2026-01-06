@@ -22,7 +22,7 @@ export default function AttendanceRow(attendance: AttendanceT) {
           shift_start_time: attendance.evaluation.shift_start,
           check_in: attendance.check_in,
           early_leave_grace_period: attendance.shift.early_leave_grace_period,
-          shift_end_time: attendance.shift.end_time,
+          shift_end_time: attendance.evaluation.shift_end,
           check_out: attendance.check_out,
         })}
       </TableCell>
