@@ -31,6 +31,7 @@ class AttendanceServiceClass {
     shift_end_time: string
     early_leave_grace_period: number
   }) {
+    if (!check_in || !check_out) return "Absent"
     if (check_in) {
       const isLate =
         new Date(check_in).getTime() >
@@ -39,8 +40,6 @@ class AttendanceServiceClass {
       if (isLate) {
         return "Late"
       }
-
-      return "On Time"
     }
 
     if (check_out) {
@@ -52,7 +51,8 @@ class AttendanceServiceClass {
         return "Early Leave"
       }
     }
-    return "Absent"
+
+    return "On Time"
   }
 
   getWorkedTime({
