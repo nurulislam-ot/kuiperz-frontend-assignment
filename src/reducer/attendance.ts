@@ -41,6 +41,11 @@ export const attendanceReducer = (
       }
 
     case "CHECK_IN": {
+      const shift_start = new Date(action.payload.time)
+      shift_start.setHours(9)
+      const shift_end = new Date(action.payload.time)
+      shift_end.setHours(17)
+
       return {
         ...prevState,
         data: [
@@ -56,12 +61,12 @@ export const attendanceReducer = (
               break_duration: 1,
               late_grace_period: 2,
               early_leave_grace_period: 2,
-              created_at: "2025-11-30T15:46:13.000000Z",
-              updated_at: "2025-11-30T15:46:13.000000Z",
+              created_at: action.payload.time,
+              updated_at: action.payload.time,
             },
             evaluation: {
-              shift_start: "2030-11-25 09:00:00",
-              shift_end: "2030-11-25 17:00:00",
+              shift_start: shift_start.toJSON(),
+              shift_end: shift_end.toJSON(),
             },
           },
         ],
