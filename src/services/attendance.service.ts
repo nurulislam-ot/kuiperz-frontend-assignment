@@ -1,13 +1,6 @@
+import { intervalToDuration } from "date-fns"
 import { type AttendanceT } from "../types/attendance"
 import attendances from "../mock-data/attendance-list.json"
-import { DateService } from "./date.service"
-import {
-  differenceInHours,
-  differenceInMinutes,
-  differenceInSeconds,
-  getHours,
-  parseJSON,
-} from "date-fns"
 
 class AttendanceServiceClass {
   async getAttendanceList() {
@@ -72,24 +65,20 @@ class AttendanceServiceClass {
     check_out?: string
   }) {
     if (check_in && check_out) {
-      const workedTime =
-        new Date(check_out).getTime() -
-        new Date(check_in).getTime() -
-        break_duration
-
-      console.log(parseJSON(check_in))
-      console.log(parseJSON(check_out))
-
-      const hours = differenceInHours(parseJSON(check_out), parseJSON(check_in))
-      const minutes = differenceInMinutes(parseJSON(check_out), parseJSON(check_in))
-      const seconds = differenceInSeconds(parseJSON(check_out), parseJSON(check_in))
-
-      console.log({
-        hours,
-        minutes,
-        seconds,
+      const {
+        hours = 0,
+        minutes = 0,
+        seconds = 0,
+      } = intervalToDuration({
+        start: check_in,
+        end: new Date(check_out).getTime() - break_duration,
       })
-      return `${hours}:${minutes}:${seconds}`
+
+      const format = (n: number) => String(n).padStart(2, "0")
+
+      const diff = `${format(hours)}:${format(minutes)}:${format(seconds)}`
+
+      return diff
     }
     return "00:00:00"
   }
